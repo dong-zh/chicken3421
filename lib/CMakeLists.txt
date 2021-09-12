@@ -10,5 +10,5 @@ add_subdirectory(glad)
 # GLM
 add_subdirectory(glm)
 
-# STB requires.... extra work
+# STB required.... extra work
 add_subdirectory(stb)

@@ -7,6 +7,6 @@
 [submodule "lib/glfw"]
 	path = lib/glfw
 	url = https://github.com/glfw/glfw
-[submodule "lib/stb/lib/stb"]
-	path = lib/stb/lib/stb
-	url = https://github.com/nothings/stb
+[submodule "lib/stb"]
+	path = lib/stb
+	url = gitlab@gitlab.cse.unsw.EDU.AU:COMP3421/21T3/stb-cmake.git
