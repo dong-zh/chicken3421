@@ -1,6 +1,9 @@
-#ifndef COMP3421_TUTORIALS_CHICKEN3421_HPP
-#define COMP3421_TUTORIALS_CHICKEN3421_HPP
+#ifndef CHICKEN3421_CHICKEN3421_HPP
+#define CHICKEN3421_CHICKEN3421_HPP
 
+#include "error.hpp"
 #include "file_utils.hpp"
+#include "gl_utils.hpp"
+#include "window_utils.hpp"
 
-#endif //COMP3421_TUTORIALS_CHICKEN3421_HPP
+#endif //CHICKEN3421_CHICKEN3421_HPP

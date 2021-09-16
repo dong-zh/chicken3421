@@ -12,4 +12,4 @@ It does so via submodules, so you will need to clone this repo via
 $> git clone --recurse https://gitlab.cse.unsw.edu.au/COMP3421/21T3/chicken3421 
 ```
 
-If you don't do this, you will need to manually grab the transitive dependencies with `git submodule update`.
+If you don't do this, you will need to manually grab the transitive dependencies with `git submodule update --init --recursive`.
