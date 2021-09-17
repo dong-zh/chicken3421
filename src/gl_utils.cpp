@@ -4,6 +4,28 @@
 
 #include <chicken3421/gl_utils.hpp>
 
+namespace {
+    std::string get_program_log(GLuint program) {
+        int log_len;
+        glGetProgramiv(program, GL_INFO_LOG_LENGTH, &log_len);
+
+        std::string log = std::string(log_len, 0);
+        glGetProgramInfoLog(program, log_len, nullptr, log.data());
+
+        return log;
+    }
+
+    std::string get_shader_log(GLuint shader) {
+        int log_len;
+        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &log_len);
+
+        std::string log = std::string(log_len, 0);
+        glGetShaderInfoLog(shader, log_len, nullptr, log.data());
+
+        return log;
+    }
+}
+
 namespace chicken3421 {
     GLuint make_shader(const std::string &path, GLenum shader_type) {
         const std::string s_src = read_file(path);
@@ -16,17 +38,9 @@ namespace chicken3421 {
         GLint did_compile;
         glGetShaderiv(shad, GL_COMPILE_STATUS, &did_compile);
 
-        if (!did_compile) {
-            // 1024 chars for a log should be enough..........
-            std::string log = std::string(1024 + 1, 0);
-            glGetShaderInfoLog(shad, 1024 + 1, nullptr, log.data());
+        expect(did_compile, get_shader_log(shad));
 
-            expect(did_compile, log);
-
-            return 0;
-        } else {
-            return shad;
-        }
+        return shad;
     }
 
     void delete_shader(GLuint shader) {
@@ -40,26 +54,41 @@ namespace chicken3421 {
         glAttachShader(prog, fs);
 
         glLinkProgram(prog);
-        glValidateProgram(prog);
+        GLint did_link;
+        glGetProgramiv(prog, GL_LINK_STATUS, &did_link);
+        expect(did_link, get_program_log(prog));
 
+        glValidateProgram(prog);
         GLint is_valid;
         glGetProgramiv(prog, GL_VALIDATE_STATUS, &is_valid);
+        expect(is_valid, get_program_log(prog));
 
-        if (!is_valid) {
-            // 1024 chars for a log should be enough..........
-            std::string log = std::string(1024 + 1, 0);
-            glGetProgramInfoLog(prog, 1024 + 1, nullptr, log.data());
-
-            expect(is_valid, log);
-
-            return 0;
-        } else {
-            return prog;
-        }
+        return prog;
     }
 
     void delete_program(GLuint program) {
         glDeleteProgram(program);
     }
 
+
+    GLuint make_vao() {
+        GLuint vao;
+        glGenVertexArrays(1, &vao);
+
+        return vao;
+    }
+
+    void delete_vao(GLuint vao) {
+        glDeleteVertexArrays(1, &vao);
+    }
+
+    GLuint make_buffer() {
+        GLuint buff;
+        glGenBuffers(1, &buff);
+        return buff;
+    }
+
+    void delete_buffer(GLuint buff) {
+        glDeleteBuffers(1, &buff);
+    }
 }

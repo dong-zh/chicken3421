@@ -47,6 +47,37 @@ namespace chicken3421 {
      */
     void delete_program(GLuint program);
 
+    /**
+     *
+     * Creates a single new Vertex Array Object
+     *
+     * @return: The new vertex array
+     */
+    GLuint make_vao();
+
+    /**
+     *
+     * Schedules the deletion of a Vertex Array Object
+     *
+     * @param vao: The VAO to delete.
+     */
+    void delete_vao(GLuint vao);
+
+    /**
+     *
+     * Creates a new single generic Buffer Object
+     *
+     * @return: The new buffer
+     */
+    GLuint make_buffer();
+
+    /**
+     *
+     * Schedules the deletion of the buffer object with OpenGL.
+     *
+     * @param buff: The buffer to delete.
+     */
+    void delete_buffer(GLuint buff);
 }
 
 #endif //CHICKEN3421_GL_UTILS_HPP

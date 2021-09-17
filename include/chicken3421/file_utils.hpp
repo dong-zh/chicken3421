@@ -16,6 +16,44 @@ namespace chicken3421 {
      */
     std::string read_file(const std::string &path);
 
+    /**
+     *
+     * A generic image.
+     *
+     * width is the width of the image in pixels
+     * height is the heigh of the image in pixels
+     * n_channels is the number of channels each pixel has (by default, rgba)
+     * data is the raw image data.
+     *
+     * Note: data must not be manually freed.
+     *
+     */
+    struct image_t {
+        int width;
+        int height;
+        int n_channels;
+        void *data;
+    };
+
+    /**
+     *
+     * Loads an image from the filesystem into RAM.
+     * The type of image is inferred from the file's extension
+     *
+     * @param filename: the path to the file.
+     * @return: the image
+     */
+    image_t load_image(const std::string &filename);
+
+    /**
+     *
+     * Deletes an image and frees its resources.
+     * An image must only be deleted once.
+     *
+     * @param img: The image to delete.
+     */
+    void delete_image(image_t &img);
+
 }
 
 #endif //CHICKEN3421_FILE_UTILS_HPP
