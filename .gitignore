@@ -1,4 +1,6 @@
 build
 bin
+lib/*
+!lib/CMakeLists.txt
 .vscode
 .idea
