@@ -6,39 +6,9 @@ set(CMAKE_CXX_STANDARD 17)
 
 option(CHICKEN3421_INSTALL "Generate install target" ON)
 
-set(FETCH_DEPS ON CACHE BOOL "Should the build system fetch, build, and install this project's dependencies")
-if (FETCH_DEPS)
-    set(BUILD_DIR ${PROJECT_SOURCE_DIR}/lib/tmp)
+add_subdirectory(lib)
 
-    # Configure the "lib" directory as a separate project (whose sole purpose is to fetch dependencies)
-    execute_process(
-            COMMAND ${CMAKE_COMMAND}
-            -S ${PROJECT_SOURCE_DIR}/lib
-            -B ${BUILD_DIR}
-            -G ${CMAKE_GENERATOR}
-            -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-            -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    )
-
-    # Build it (actually downloads)
-    execute_process(COMMAND ${CMAKE_COMMAND} --build ${BUILD_DIR})
-
-    # Install the binaries (the actual things needed)
-    execute_process(COMMAND ${CMAKE_COMMAND} --install ${BUILD_DIR})
-
-    # Clean up after ourselves
-    file(REMOVE_RECURSE ${BUILD_DIR})
-
-    # Don't need to refetch the dependencies
-    set(FETCH_DEPS OFF CACHE BOOL "" FORCE)
-endif()
-
-find_package(glad REQUIRED HINTS ${PROJECT_SOURCE_DIR}/lib/glad)
-find_package(glfw3 REQUIRED HINTS ${PROJECT_SOURCE_DIR}/lib/glfw)
-find_package(glm REQUIRED HINTS ${PROJECT_SOURCE_DIR}/lib/glm)
-find_package(stb REQUIRED HINTS ${PROJECT_SOURCE_DIR}/lib/stb)
-
-set(COMMON_LIBS glad::glad glfw glm::glm stb)
+set(COMMON_LIBS assimp glad glfw glm stb)
 
 add_library(chicken3421)
 target_include_directories(
@@ -83,7 +53,7 @@ if (CHICKEN3421_INSTALL)
 
     include(CMakePackageConfigHelpers)
 
-    # generate the config file that is includes the exports
+    # generate the config file that includes the exports
     configure_package_config_file(${PROJECT_SOURCE_DIR}/cmake/chicken3421Config.cmake.in
             "${CMAKE_CURRENT_BINARY_DIR}/chicken3421Config.cmake"
             INSTALL_DESTINATION "lib/cmake/chicken3421"
