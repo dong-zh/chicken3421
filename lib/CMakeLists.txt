@@ -25,7 +25,7 @@ FetchContent_Declare(
         GIT_TAG master
         GIT_PROGRESS ON
 )
-set(GLAD_API gl=3.3)
+set(GLAD_API "gl=3.3")
 option(GLAD_INSTALL "" ON)
 
 FetchContent_Declare(
