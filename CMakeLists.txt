@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 
-project(chicken3421 LANGUAGES CXX)
+project(chicken3421)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -74,4 +74,4 @@ if (CHICKEN3421_INSTALL)
             ${CMAKE_CURRENT_BINARY_DIR}/chicken3421ConfigVersion.cmake
             DESTINATION lib/cmake/chicken3421
             )
-endif()
+endif ()

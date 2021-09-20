@@ -6,18 +6,17 @@ FetchContent_Declare(
         GIT_TAG origin/master
         GIT_PROGRESS ON
 )
-#option(BUILD_SHARED_LIBS "" OFF)
-#option(ASSIMP_BUILD_ASSIMP_TOOLS "" OFF)
-#option(ASSIMP_BUILD_TESTS "" OFF)
-option(ASSIMP_BUILD_ZLIB "" ON)
+option(BUILD_SHARED_LIBS "" OFF)
+option(ASSIMP_BUILD_ASSIMP_TOOLS "" OFF)
+option(ASSIMP_BUILD_TESTS "" OFF)
 
-#FetchContent_Declare(
-#        glm
-#        GIT_REPOSITORY https://github.com/g-truc/glm
-#        GIT_TAG master
-#        GIT_PROGRESS ON
-#)
-#option(BUILD_TESTING "" OFF)
+FetchContent_Declare(
+        glm
+        GIT_REPOSITORY https://github.com/g-truc/glm
+        GIT_TAG master
+        GIT_PROGRESS ON
+)
+option(BUILD_TESTING "" OFF)
 
 
 FetchContent_Declare(
@@ -47,4 +46,16 @@ FetchContent_Declare(
         GIT_PROGRESS ON
 )
 
-FetchContent_MakeAvailable(assimp glad glfw  stb-cmake)
+# GLM is a piece of s***
+if (NOT glm_POPULATED)
+    FetchContent_Populate(glm)
+
+    file(STRINGS ${glm_SOURCE_DIR}/CMakeLists.txt BUILD_SYS_LINES)
+    list(FILTER BUILD_SYS_LINES EXCLUDE REGEX "CMAKE_SOURCE_DIR.*STREQUAL.*CMAKE_CURRENT_SOURCE_DIR")
+    list(JOIN BUILD_SYS_LINES "\n" NEW_BUILD_SYS)
+    file(WRITE ${glm_SOURCE_DIR}/CMakeLists.txt ${NEW_BUILD_SYS})
+
+    add_subdirectory(${glm_SOURCE_DIR} ${glm_BINARY_DIR})
+endif()
+
+FetchContent_MakeAvailable(assimp glad glfw stb-cmake)
