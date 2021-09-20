@@ -58,10 +58,10 @@ namespace chicken3421 {
         glGetProgramiv(prog, GL_LINK_STATUS, &did_link);
         expect(did_link, get_program_log(prog));
 
-        glValidateProgram(prog);
-        GLint is_valid;
-        glGetProgramiv(prog, GL_VALIDATE_STATUS, &is_valid);
-        expect(is_valid, get_program_log(prog));
+        //glValidateProgram(prog);
+        //GLint is_valid;
+        //glGetProgramiv(prog, GL_VALIDATE_STATUS, &is_valid);
+        //expect(is_valid, get_program_log(prog));
 
         return prog;
     }
