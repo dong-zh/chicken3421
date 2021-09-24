@@ -28,39 +28,63 @@ namespace {
 
         std::cout << "OpenGL debug message (" << id << "): " <<  message << std::endl;
 
+        std::cout << "    (";
         switch (source) {
-            case 0x8246: std::cout << "Source: API"; break;
-            case 0x8247: std::cout << "Source: Window System"; break;
-            case 0x8248: std::cout << "Source: Shader Compiler"; break;
-            case 0x8249: std::cout << "Source: Third Party"; break;
-            case 0x824A: std::cout << "Source: Application"; break;
-            case 0x824B: std::cout << "Source: Other"; break;
-            default: std::cout << "Source: Unknown"; break;
+            case 0x8246: std::cout << "source: API"; break;
+            case 0x8247: std::cout << "source: Window System"; break;
+            case 0x8248: std::cout << "source: Shader Compiler"; break;
+            case 0x8249: std::cout << "source: Third Party"; break;
+            case 0x824A: std::cout << "source: Application"; break;
+            case 0x824B: std::cout << "source: Other"; break;
+            default: std::cout << "source: Unknown"; break;
         } std::cout << "; ";
 
         switch (type) {
-            case 0x824C: std::cout << "Type: Error"; break;
-            case 0x824D: std::cout << "Type: Deprecated Behaviour"; break;
-            case 0x824E: std::cout << "Type: Undefined Behaviour"; break;
-            case 0x824F: std::cout << "Type: Portability"; break;
-            case 0x8250: std::cout << "Type: Performance"; break;
-            case 0x8268: std::cout << "Type: Marker"; break;
-            case 0x8269: std::cout << "Type: Push Group"; break;
-            case 0x826A: std::cout << "Type: Pop Group"; break;
-            case 0x8251: std::cout << "Type: Other"; break;
-            default: std::cout << "Type: Unknown"; break;
+            case 0x824C: std::cout << "type: Error"; break;
+            case 0x824D: std::cout << "type: Deprecated Behaviour"; break;
+            case 0x824E: std::cout << "type: Undefined Behaviour"; break;
+            case 0x824F: std::cout << "type: Portability"; break;
+            case 0x8250: std::cout << "type: Performance"; break;
+            case 0x8268: std::cout << "type: Marker"; break;
+            case 0x8269: std::cout << "type: Push Group"; break;
+            case 0x826A: std::cout << "type: Pop Group"; break;
+            case 0x8251: std::cout << "type: Other"; break;
+            default: std::cout << "type: Unknown"; break;
         } std::cout << "; ";
 
         switch (severity) {
-            case 0x9146: std::cout << "Severity: high"; break;
-            case 0x9147: std::cout << "Severity: medium"; break;
-            case 0x9148: std::cout << "Severity: low"; break;
-            case 0x826B: std::cout << "Severity: notification"; break;
-            default: std::cout << "Severity: unknown"; break;
-        } std::cout << std::endl;
+            case 0x9146: std::cout << "severity: high"; break;
+            case 0x9147: std::cout << "severity: medium"; break;
+            case 0x9148: std::cout << "severity: low"; break;
+            case 0x826B: std::cout << "severity: notification"; break;
+            default: std::cout << "severity: unknown"; break;
+        } std::cout << ")" << std::endl;
     }
 
     typedef void (APIENTRY *debugproc_t)(GLenum, GLenum, GLuint, GLenum, GLsizei, const GLchar *, const void *);
+
+    // Registers debug output callback with OpenGL
+    void register_debug_output() {
+        GLint flags;
+        glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
+        if (flags & 0x00000002) { // GL_CONTEXT_FLAG_DEBUG_BIT
+            std::cout << "Debug output enabled" << std::endl;
+            glEnable(0x92e0); // GL_DEBUG_OUTPUT
+            glEnable(0x8242); // GL_DEBUG_OUTPUT_SYNCHRONOUS
+            // This is a bit nasty as we can't use GLAD - the version of GLAD included
+            // only supports OpenGL 3.3. FWIW this is what OpenGL looks like if you
+            // don't use a loader! haha.
+            auto p_glDebugMessageCallback =
+                    reinterpret_cast<void (*)(debugproc_t, const void *)>(
+                            glfwGetProcAddress("glDebugMessageCallback"));
+            auto p_glDebugMessageControl =
+                    reinterpret_cast<void (*)(GLenum, GLenum, GLenum,
+                                              GLsizei, const GLuint *, GLboolean)>(
+                            glfwGetProcAddress("glDebugMessageControl"));
+            p_glDebugMessageCallback(custom_debug_callback, nullptr);
+            p_glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
+        }
+    }
 }
 
 namespace chicken3421 {
@@ -98,24 +122,8 @@ namespace chicken3421 {
         bool success = make_opengl_context(win);
         expect(success, "Could not load OpenGL");
 
-        // This is a bit nasty as we can't use GLAD - the version of GLAD included
-        // only supports OpenGL 3.3. FWIW this is what OpenGL looks like if you
-        // don't use a loader! haha.
-        GLint flags;
-        glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
-        if (flags & 0x00000002) {
-            std::cout << "Debug output enabled" << std::endl;
-            glEnable(0x92e0); // GL_DEBUG_OUTPUT
-            glEnable(0x8242); // GL_DEBUG_OUTPUT_SYNCHRONOUS
-            auto p_glDebugMessageCallback =
-                    reinterpret_cast<void (*)(debugproc_t, const void *)>(
-                            glfwGetProcAddress("glDebugMessageCallback"));
-            auto p_glDebugMessageControl =
-                    reinterpret_cast<void (*)(GLenum, GLenum, GLenum,
-                                              GLsizei, const GLuint *, GLboolean)>(
-                            glfwGetProcAddress("glDebugMessageControl"));
-            p_glDebugMessageCallback(custom_debug_callback, nullptr);
-            p_glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
+        if (debug_output_enabled) {
+            register_debug_output();
         }
 
         return win;
