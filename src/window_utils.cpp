@@ -83,26 +83,6 @@ namespace chicken3421 {
 
         GLFWwindow *win = glfwCreateWindow(width, height, title.data(), nullptr, nullptr);
 
-        GLint flags;
-        glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
-        if (flags & 0x00000002) {
-            std::cout << "Debug output enabled" << std::endl;
-            // This is a bit nasty as we can't use GLAD - the version of GLAD included
-            // only supports OpenGL 3.3. fwiw this is what OpenGL looks like if you don't
-            // use a loader! haha.
-            glEnable(0x92e0); // GL_DEBUG_OUTPUT
-            glEnable(0x8242); // GL_DEBUG_OUTPUT_SYNCHRONOUS
-            auto glDebugMessageCallback =
-                    reinterpret_cast<void (*)(debugproc_t, const void *)>(
-                            glfwGetProcAddress("glDebugMessageCallback"));
-            auto glDebugMessageControl =
-                    reinterpret_cast<void (*)(GLenum, GLenum, GLenum,
-                                              GLsizei, const GLuint *, GLboolean)>(
-                            glfwGetProcAddress("glDebugMessageControl"));
-            glDebugMessageCallback(custom_debug_callback, nullptr);
-            glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
-        }
-
         return win;
     }
 
@@ -117,6 +97,26 @@ namespace chicken3421 {
 
         bool success = make_opengl_context(win);
         expect(success, "Could not load OpenGL");
+
+        // This is a bit nasty as we can't use GLAD - the version of GLAD included
+        // only supports OpenGL 3.3. FWIW this is what OpenGL looks like if you
+        // don't use a loader! haha.
+        GLint flags;
+        glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
+        if (flags & 0x00000002) {
+            std::cout << "Debug output enabled" << std::endl;
+            glEnable(0x92e0); // GL_DEBUG_OUTPUT
+            glEnable(0x8242); // GL_DEBUG_OUTPUT_SYNCHRONOUS
+            auto p_glDebugMessageCallback =
+                    reinterpret_cast<void (*)(debugproc_t, const void *)>(
+                            glfwGetProcAddress("glDebugMessageCallback"));
+            auto p_glDebugMessageControl =
+                    reinterpret_cast<void (*)(GLenum, GLenum, GLenum,
+                                              GLsizei, const GLuint *, GLboolean)>(
+                            glfwGetProcAddress("glDebugMessageControl"));
+            p_glDebugMessageCallback(custom_debug_callback, nullptr);
+            p_glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
+        }
 
         return win;
     }
