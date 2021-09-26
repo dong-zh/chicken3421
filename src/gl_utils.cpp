@@ -1,30 +1,9 @@
-#include <chicken3421/error.hpp>
+#include <chicken3421/error_utils.hpp>
 
 #include <chicken3421/file_utils.hpp>
 
 #include <chicken3421/gl_utils.hpp>
 
-namespace {
-    std::string get_program_log(GLuint program) {
-        int log_len;
-        glGetProgramiv(program, GL_INFO_LOG_LENGTH, &log_len);
-
-        std::string log = std::string(log_len, 0);
-        glGetProgramInfoLog(program, log_len, nullptr, log.data());
-
-        return log;
-    }
-
-    std::string get_shader_log(GLuint shader) {
-        int log_len;
-        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &log_len);
-
-        std::string log = std::string(log_len, 0);
-        glGetShaderInfoLog(shader, log_len, nullptr, log.data());
-
-        return log;
-    }
-}
 
 namespace chicken3421 {
     GLuint make_shader(const std::string &path, GLenum shader_type) {
@@ -47,6 +26,15 @@ namespace chicken3421 {
         glDeleteShader(shader);
     }
 
+    std::string get_program_log(GLuint program) {
+        int log_len;
+        glGetProgramiv(program, GL_INFO_LOG_LENGTH, &log_len);
+
+        std::string log = std::string(log_len, 0);
+        glGetProgramInfoLog(program, log_len, nullptr, log.data());
+
+        return log;
+    }
 
     GLuint make_program(GLuint vs, GLuint fs) {
         GLuint prog = glCreateProgram();
@@ -58,10 +46,6 @@ namespace chicken3421 {
         glGetProgramiv(prog, GL_LINK_STATUS, &did_link);
         expect(did_link, get_program_log(prog));
 
-        //glValidateProgram(prog);
-        //GLint is_valid;
-        //glGetProgramiv(prog, GL_VALIDATE_STATUS, &is_valid);
-        //expect(is_valid, get_program_log(prog));
 
         return prog;
     }
@@ -70,6 +54,24 @@ namespace chicken3421 {
         glDeleteProgram(program);
     }
 
+    bool validate_program(GLuint program) {
+        glValidateProgram(program);
+        GLint is_valid;
+        glGetProgramiv(program, GL_VALIDATE_STATUS, &is_valid);
+
+        return is_valid;
+    }
+
+
+    std::string get_shader_log(GLuint shader) {
+        int log_len;
+        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &log_len);
+
+        std::string log = std::string(log_len, 0);
+        glGetShaderInfoLog(shader, log_len, nullptr, log.data());
+
+        return log;
+    }
 
     GLuint make_vao() {
         GLuint vao;
@@ -91,4 +93,22 @@ namespace chicken3421 {
     void delete_buffer(GLuint buff) {
         glDeleteBuffers(1, &buff);
     }
+
+    GLuint make_texture() {
+        GLuint tex;
+        glGenTextures(1, &tex);
+        return tex;
+    }
+
+
+    void delete_texture(GLuint tex) {
+        glDeleteTextures(1, &tex);
+    }
+
+    GLint get_uniform_location(GLuint program, const std::string &name) {
+        GLint loc = glGetUniformLocation(program, name.data());
+        expect(loc != -1, "No uniform variable named: " + name + "in program: " + std::to_string(loc));
+        return loc;
+    }
+
 }

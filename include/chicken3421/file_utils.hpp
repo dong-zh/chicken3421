@@ -43,6 +43,7 @@ namespace chicken3421 {
      * @param filename: the path to the file.
      * @return: the image
      */
+#warning This function will have a breaking change after the assignment 1 deadline
     image_t load_image(const std::string &filename);
 
     /**

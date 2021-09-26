@@ -21,12 +21,12 @@ target_sources(
         chicken3421
         PRIVATE
         include/chicken3421/chicken3421.hpp
-        include/chicken3421/error.hpp
+        include/chicken3421/error_utils.hpp
         include/chicken3421/file_utils.hpp
         include/chicken3421/gl_utils.hpp
         include/chicken3421/window_utils.hpp
 
-        src/error.cpp
+        src/error_utils.cpp
         src/file_utils.cpp
         src/gl_utils.cpp
         src/window_utils.cpp

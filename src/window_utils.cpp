@@ -1,6 +1,6 @@
 #include <optional>
 
-#include <chicken3421/error.hpp>
+#include <chicken3421/error_utils.hpp>
 
 #include <chicken3421/window_utils.hpp>
 

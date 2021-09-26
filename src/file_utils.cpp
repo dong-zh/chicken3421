@@ -2,7 +2,7 @@
 
 #include <stb/stb_image.h>
 
-#include <chicken3421/error.hpp>
+#include <chicken3421/error_utils.hpp>
 
 #include <chicken3421/file_utils.hpp>
 
