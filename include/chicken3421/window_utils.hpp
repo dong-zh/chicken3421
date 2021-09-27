@@ -36,11 +36,21 @@ namespace chicken3421 {
      * @see make_opengl_context
      *
      * @param width: initial width of the window
-     * @param heigh: initial height of the window
+     * @param height: initial height of the window
      * @param title: initial title of the window
      * @return: a valid window ready for rendering into
      */
     GLFWwindow *make_opengl_window(int width, int height, const std::string &title);
+
+    /**
+     * Callback function to update the opengl viewport dimensions on GLFW window resize
+     * To be used by glfwSetFramebufferSizeCallback
+     *
+     * @param win: A valid GLFWwindow pointer
+     * @param width: new width of the window
+     * @param height: new height of the window
+     */
+    void on_resize(GLFWwindow *win, int width, int height);
 }
 
 

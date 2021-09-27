@@ -46,4 +46,8 @@ namespace chicken3421 {
 
         return win;
     }
+
+    void on_resize(GLFWwindow *win, int width, int height) {
+        glViewport(0, 0, width, height);
+    }
 }
