@@ -13,8 +13,10 @@ namespace chicken3421 {
         return { std::istreambuf_iterator<char>(f), std::istreambuf_iterator<char>() };
     }
 
-    image_t load_image(const std::string &filename) {
+    image_t load_image(const std::string &filename, bool flip_vertical) {
         image_t img; // NOLINT(cppcoreguidelines-pro-type-member-init)
+
+        stbi_set_flip_vertically_on_load(flip_vertical);
         img.data = stbi_load(filename.data(), &img.width, &img.height, &img.n_channels, 4);
 
         chicken3421::expect(img.data, "Could not read " + filename);
