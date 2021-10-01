@@ -59,7 +59,7 @@ namespace chicken3421 {
      * @param width: new width of the window
      * @param height: new height of the window
      */
-#warning this function will be removed after the assignment 1
+#warning this function will be removed after assignment 1
     void on_resize(GLFWwindow *win, int width, int height);
 
 }
