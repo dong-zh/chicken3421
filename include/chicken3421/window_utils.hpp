@@ -50,6 +50,18 @@ namespace chicken3421 {
      * submissions, but it may help you in debugging.
      */
     void enable_debug_output();
+
+    /**
+     * Callback function to update the opengl viewport dimensions on GLFW window resize
+     * To be used by glfwSetFramebufferSizeCallback
+     *
+     * @param win: A valid GLFWwindow pointer
+     * @param width: new width of the window
+     * @param height: new height of the window
+     */
+#warning this function will be removed after the assignment 1
+    void on_resize(GLFWwindow *win, int width, int height);
+
 }
 
 
