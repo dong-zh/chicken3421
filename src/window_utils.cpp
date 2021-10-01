@@ -15,6 +15,7 @@ namespace {
             glfwTerminate();
         }
     };
+
     std::optional<glfw_interop_t> glfw_interop;
     bool debug_output_enabled = false;
 
@@ -24,41 +25,88 @@ namespace {
             GLenum source, GLenum type, unsigned int id, GLenum severity, GLsizei,
             const char *message, const void *) {
         // ignore non-significant error/warning codes
-        if(id == 131169 || id == 131185 || id == 131218 || id == 131204) return;
+        if (id == 131169 || id == 131185 || id == 131218 || id == 131204) return;
 
-        std::cout << "OpenGL debug message (" << id << "): " <<  message << std::endl;
+        std::cout << "OpenGL debug message (" << id << "): " << message << std::endl;
 
         std::cout << "    (";
         switch (source) {
-            case 0x8246: std::cout << "source: API"; break;
-            case 0x8247: std::cout << "source: Window System"; break;
-            case 0x8248: std::cout << "source: Shader Compiler"; break;
-            case 0x8249: std::cout << "source: Third Party"; break;
-            case 0x824A: std::cout << "source: Application"; break;
-            case 0x824B: std::cout << "source: Other"; break;
-            default: std::cout << "source: Unknown"; break;
-        } std::cout << "; ";
+            case 0x8246:
+                std::cout << "source: API";
+                break;
+            case 0x8247:
+                std::cout << "source: Window System";
+                break;
+            case 0x8248:
+                std::cout << "source: Shader Compiler";
+                break;
+            case 0x8249:
+                std::cout << "source: Third Party";
+                break;
+            case 0x824A:
+                std::cout << "source: Application";
+                break;
+            case 0x824B:
+                std::cout << "source: Other";
+                break;
+            default:
+                std::cout << "source: Unknown";
+                break;
+        }
+        std::cout << "; ";
 
         switch (type) {
-            case 0x824C: std::cout << "type: Error"; break;
-            case 0x824D: std::cout << "type: Deprecated Behaviour"; break;
-            case 0x824E: std::cout << "type: Undefined Behaviour"; break;
-            case 0x824F: std::cout << "type: Portability"; break;
-            case 0x8250: std::cout << "type: Performance"; break;
-            case 0x8268: std::cout << "type: Marker"; break;
-            case 0x8269: std::cout << "type: Push Group"; break;
-            case 0x826A: std::cout << "type: Pop Group"; break;
-            case 0x8251: std::cout << "type: Other"; break;
-            default: std::cout << "type: Unknown"; break;
-        } std::cout << "; ";
+            case 0x824C:
+                std::cout << "type: Error";
+                break;
+            case 0x824D:
+                std::cout << "type: Deprecated Behaviour";
+                break;
+            case 0x824E:
+                std::cout << "type: Undefined Behaviour";
+                break;
+            case 0x824F:
+                std::cout << "type: Portability";
+                break;
+            case 0x8250:
+                std::cout << "type: Performance";
+                break;
+            case 0x8268:
+                std::cout << "type: Marker";
+                break;
+            case 0x8269:
+                std::cout << "type: Push Group";
+                break;
+            case 0x826A:
+                std::cout << "type: Pop Group";
+                break;
+            case 0x8251:
+                std::cout << "type: Other";
+                break;
+            default:
+                std::cout << "type: Unknown";
+                break;
+        }
+        std::cout << "; ";
 
         switch (severity) {
-            case 0x9146: std::cout << "severity: high"; break;
-            case 0x9147: std::cout << "severity: medium"; break;
-            case 0x9148: std::cout << "severity: low"; break;
-            case 0x826B: std::cout << "severity: notification"; break;
-            default: std::cout << "severity: unknown"; break;
-        } std::cout << ")" << std::endl;
+            case 0x9146:
+                std::cout << "severity: high";
+                break;
+            case 0x9147:
+                std::cout << "severity: medium";
+                break;
+            case 0x9148:
+                std::cout << "severity: low";
+                break;
+            case 0x826B:
+                std::cout << "severity: notification";
+                break;
+            default:
+                std::cout << "severity: unknown";
+                break;
+        }
+        std::cout << ")" << std::endl;
     }
 
     typedef void (APIENTRY *debugproc_t)(GLenum, GLenum, GLuint, GLenum, GLsizei, const GLchar *, const void *);
@@ -134,7 +182,13 @@ namespace chicken3421 {
         debug_output_enabled = true;
     }
 
+
     void delete_opengl_window(GLFWwindow *w) {
         glfwDestroyWindow(w);
     }
+
+    void on_resize(GLFWwindow *win, int width, int height) {
+        glViewport(0, 0, width, height);
+    }
+
 }
