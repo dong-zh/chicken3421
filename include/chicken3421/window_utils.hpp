@@ -43,6 +43,13 @@ namespace chicken3421 {
     GLFWwindow *make_opengl_window(int width, int height, const std::string &title);
 
     /**
+     * Destroys a previously created window and OpenGL context
+     *
+     * @param w The window to destroy
+     */
+    void delete_opengl_window(GLFWwindow *w);
+
+    /**
      * Enables OpenGL debug reporting. Must be called before make_window.
      * WARNING: This feature is experimental. It will load OpenGL 4.3 instead
      * of the course standard 3.3. Your driver may not support 4.3, or your

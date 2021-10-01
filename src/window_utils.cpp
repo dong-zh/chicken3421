@@ -133,4 +133,8 @@ namespace chicken3421 {
         // this flag is used in make_window
         debug_output_enabled = true;
     }
+
+    void delete_opengl_window(GLFWwindow *w) {
+        glfwDestroyWindow(w);
+    }
 }
