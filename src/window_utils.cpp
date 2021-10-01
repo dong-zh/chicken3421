@@ -133,4 +133,9 @@ namespace chicken3421 {
         // this flag is used in make_window
         debug_output_enabled = true;
     }
+
+    void on_resize(GLFWwindow *win, int width, int height) {
+        glViewport(0, 0, width, height);
+    }
+
 }
