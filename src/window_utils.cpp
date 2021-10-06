@@ -173,13 +173,14 @@ namespace chicken3421 {
         if (debug_output_enabled) {
             register_debug_output();
         }
-
         return win;
     }
 
     void enable_debug_output() {
         // this flag is used in make_window
+#ifndef __APPLE__
         debug_output_enabled = true;
+#endif
     }
 
 
