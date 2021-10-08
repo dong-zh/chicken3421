@@ -1,14 +1,10 @@
 include(FetchContent)
 
-#FetchContent_Declare(
-#        assimp
-#        GIT_REPOSITORY https://github.com/assimp/assimp
-#        GIT_TAG origin/master
-#        GIT_PROGRESS ON
-#)
-#option(BUILD_SHARED_LIBS "" OFF)
-#option(ASSIMP_BUILD_ASSIMP_TOOLS "" OFF)
-#option(ASSIMP_BUILD_TESTS "" OFF)
+FetchContent_Declare(
+        tinyobj
+        GIT_REPOSITORY https://github.com/tinyobjloader/tinyobjloader
+        GIT_TAG master
+)
 
 FetchContent_Declare(
         glm
@@ -58,4 +54,4 @@ if (NOT glm_POPULATED)
     add_subdirectory(${glm_SOURCE_DIR} ${glm_BINARY_DIR})
 endif()
 
-FetchContent_MakeAvailable(glad glfw stb-cmake)
+FetchContent_MakeAvailable(tinyobj glad glfw stb-cmake)
