@@ -29,6 +29,7 @@ target_sources(
         src/error_utils.cpp
         src/file_utils.cpp
         src/gl_utils.cpp
+        src/model.cpp
         src/window_utils.cpp
 )
 target_link_libraries(chicken3421 PUBLIC ${COMMON_LIBS})
