@@ -17,7 +17,7 @@ namespace chicken3421 {
         image_t img; // NOLINT(cppcoreguidelines-pro-type-member-init)
 
         stbi_set_flip_vertically_on_load(flip_vertical);
-        img.data = stbi_load(filename.data(), &img.width, &img.height, &img.n_channels, 4);
+        img.data = stbi_load(filename.data(), &img.width, &img.height, &img.n_channels, 0);
 
         chicken3421::expect(img.data, "Could not read " + filename);
 
