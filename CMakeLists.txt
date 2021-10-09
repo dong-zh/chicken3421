@@ -8,7 +8,7 @@ option(CHICKEN3421_INSTALL "Generate install target" ON)
 
 add_subdirectory(lib)
 
-set(COMMON_LIBS glad glfw glm stb tinyobj)
+set(COMMON_LIBS glad glfw glm stb tinyobjloader)
 
 add_library(chicken3421)
 target_include_directories(
