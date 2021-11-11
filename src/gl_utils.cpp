@@ -4,6 +4,7 @@
 
 #include <chicken3421/gl_utils.hpp>
 
+#include <glm/ext.hpp>
 
 namespace chicken3421 {
     GLuint make_shader(const std::string &path, GLenum shader_type) {
@@ -107,8 +108,50 @@ namespace chicken3421 {
 
     GLint get_uniform_location(GLuint program, const std::string &name) {
         GLint loc = glGetUniformLocation(program, name.data());
-        expect(loc != -1, "No uniform variable named: " + name + "in program: " + std::to_string(loc));
+        expect(loc != -1, "ERROR: No uniform variable named: " + name + "in program: " + std::to_string(loc));
         return loc;
     }
 
+    void set_uniform(GLuint program, const std::string &name, float value) {
+        auto location = get_uniform_location(program, name);
+        glUniform1f(location, value);
+    }
+
+    void set_uniform(GLuint program, const std::string &name, int value) {
+        auto location = get_uniform_location(program, name);
+        glUniform1i(location, value);
+    }
+
+    void set_uniform(GLuint program, const std::string &name, glm::vec4 value) {
+        auto location = get_uniform_location(program, name);
+        glUniform4fv(location, 1, glm::value_ptr(value));
+    }
+
+    void set_uniform(GLuint program, const std::string &name, const glm::mat4 &value) {
+        auto location = get_uniform_location(program, name);
+        glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
+    }
+
+    GLuint make_framebuffer() {
+        GLuint fbo;
+        glGenFramebuffers(1, &fbo);
+        return fbo;
+    }
+
+    void delete_framebuffer(GLuint fbo) {
+        glDeleteFramebuffers(1, &fbo);
+    }
+
+
+    GLuint make_renderbuffer() {
+        GLuint rbo;
+        glGenRenderbuffers(1, &rbo);
+        return rbo;
+    }
+
+
+    void delete_renderbuffer(GLuint rbo) {
+        glDeleteRenderbuffers(1, &rbo);
+
+    }
 }

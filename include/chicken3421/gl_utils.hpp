@@ -5,6 +5,7 @@
 #include <vector>
 
 #include <glad/glad.h>
+#include <glm/glm.hpp>
 
 namespace chicken3421 {
     /**
@@ -144,6 +145,55 @@ namespace chicken3421 {
      * @throws std::runtime_error if the program does not contain a uniform named `name`.
      */
     GLint get_uniform_location(GLuint program, const std::string &name);
+
+    void set_uniform(GLuint program, const std::string &name, float value);
+
+    void set_uniform(GLuint program, const std::string &name, int value);
+
+    void set_uniform(GLuint program, const std::string &name, glm::vec4 value);
+
+    void set_uniform(GLuint program, const std::string &name, const glm::mat4 &value);
+
+    /**
+     * Create an empty framebuffer object.
+     *
+     * Unfortunately, framebuffer set-up is so specific to one's needs we
+     * cannot provide much more functionality than providing a nicer way to
+     * create an FBO.
+     *
+     * Binding and filling is the responsibility of the caller.
+     *
+     * @return A handle to the created framebuffer object
+     */
+    GLuint make_framebuffer();
+
+    /**
+     *
+     * Schedules the deletion of the framebuffer object with OpenGL.
+     *
+     * @param fbo: The framebuffer to delete.
+     */
+    void delete_framebuffer(GLuint fbo);
+
+    /**
+     * Create an empty renderbuffer object.
+     *
+     * Unfortunately, much like most OpenGL objects, complete initialisation is so specific we cannot provide support
+     * more than this.
+     *
+     * We leave full initialisation to the caller.
+     *
+     * @return The newly created renderbuffer object.
+     */
+    GLuint make_renderbuffer();
+
+    /**
+     *
+     * Schedules the deletion of the renderbuffer object with OpenGL.
+     *
+     * @param rbo: The renderbuffer to delete.
+     */
+    void delete_renderbuffer(GLuint rbo);
 }
 
 #endif //CHICKEN3421_GL_UTILS_HPP

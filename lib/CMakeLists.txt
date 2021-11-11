@@ -27,7 +27,7 @@ option(GLAD_INSTALL "" ON)
 FetchContent_Declare(
         glfw
         GIT_REPOSITORY https://github.com/glfw/glfw
-        GIT_TAG master
+        GIT_TAG 19543afbfb3856e5ef7d5954ad795e1077e82550 # 3.3-stable
         GIT_PROGRESS ON
 )
 option(GLFW_BUILD_EXAMPLES "" OFF)
