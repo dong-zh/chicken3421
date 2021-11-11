@@ -3,6 +3,8 @@
 #include <chicken3421/camera.hpp>
 
 namespace {
+    using namespace chicken3421;
+
     const float CAMERA_SPEED = 10.f;
     const float INVERT_X = -1.f;
     const float INVERT_Y = 1.f;
@@ -67,39 +69,42 @@ namespace {
 
 }
 
-camera_t make_camera(glm::vec3 pos, glm::vec3 target) {
-    glm::vec3 front = glm::normalize(target - pos);
+namespace chicken3421 {
+    camera_t make_camera(glm::vec3 pos, glm::vec3 target) {
+        glm::vec3 front = glm::normalize(target - pos);
 
-    // calculate the yaw and pitch from the front vector
-    // pretty sure there's a bug here
-    float yaw = -std::atan2(front.x, -front.z);
-    float pitch = -std::asin(front.y);
+        // calculate the yaw and pitch from the front vector
+        // pretty sure there's a bug here
+        float yaw = -std::atan2(front.x, -front.z);
+        float pitch = -std::asin(front.y);
 
-    return { pos, yaw, pitch };
-}
+        return { pos, yaw, pitch };
+    }
 
-void delete_camera(camera_t &c) {
-    // nothing to do as this is a trivially destructible type
-    (void) c;
-}
+    void delete_camera(camera_t &c) {
+        // nothing to do as this is a trivially destructible type
+        (void) c;
+    }
 
 
-void update_camera(camera_t &cam, GLFWwindow *window, float dt) {
-    update_cam_angles(cam, window, dt);
-    update_cam_pos(cam, window, dt);
-}
+    void update_camera(camera_t &cam, GLFWwindow *window, float dt) {
+        update_cam_angles(cam, window, dt);
+        update_cam_pos(cam, window, dt);
+    }
 
-glm::mat4 get_view(const camera_t &cam) {
-    auto s = sidev(cam.pitch, cam.yaw);
-    auto u = upv(cam.pitch, cam.yaw);
-    auto f = frontv(cam.pitch, cam.yaw);
-    auto o = glm::vec3(-glm::dot(cam.pos, s), -glm::dot(cam.pos, u), -glm::dot(cam.pos, f));
-    auto view = glm::mat4{
-            s.x, u.x, f.x, 0,
-            s.y, u.y, f.y, 0,
-            s.z, u.z, f.z, 0,
-            o.x, o.y, o.z, 1
-    };
+    glm::mat4 get_view(const camera_t &cam) {
+        auto s = sidev(cam.pitch, cam.yaw);
+        auto u = upv(cam.pitch, cam.yaw);
+        auto f = frontv(cam.pitch, cam.yaw);
+        auto o = glm::vec3(-glm::dot(cam.pos, s), -glm::dot(cam.pos, u), -glm::dot(cam.pos, f));
+        auto view = glm::mat4{
+                s.x, u.x, f.x, 0,
+                s.y, u.y, f.y, 0,
+                s.z, u.z, f.z, 0,
+                o.x, o.y, o.z, 1
+        };
 
-    return view;
+        return view;
+    }
+
 }

@@ -5,16 +5,16 @@
 #include <glm/glm.hpp>
 #include <GLFW/glfw3.h>
 
-/**
+namespace chicken3421 {/**
  * A classic Euler-angle camera
  * Quite unremarkable
  */
-struct camera_t {
-    glm::vec3 pos;
+    struct camera_t {
+        glm::vec3 pos;
 
-    float yaw;
-    float pitch;
-};
+        float yaw;
+        float pitch;
+    };
 
 /**
  * Create a new camera at pos looking toward target
@@ -23,7 +23,7 @@ struct camera_t {
  * @param target What the camera is looking at
  * @return A new camera positioned at position, looking at target.
  */
-camera_t make_camera(glm::vec3 pos, glm::vec3 target);
+    camera_t make_camera(glm::vec3 pos, glm::vec3 target);
 
 /**
  * Destroys the camera "c".
@@ -32,7 +32,7 @@ camera_t make_camera(glm::vec3 pos, glm::vec3 target);
  *
  * @param c The camera to destroy.
  */
-void delete_camera(camera_t &c);
+    void delete_camera(camera_t &c);
 
 /**
  * Update the position and/or target based on user input.
@@ -44,7 +44,7 @@ void delete_camera(camera_t &c);
  * @param window The active window that is receiving user input
  * @param dt How much time has passed since the last frame was drawn
  */
-void update_camera(camera_t &cam, GLFWwindow *window, float dt);
+    void update_camera(camera_t &cam, GLFWwindow *window, float dt);
 
 /**
  * Get the view matrix of this camera.
@@ -55,7 +55,8 @@ void update_camera(camera_t &cam, GLFWwindow *window, float dt);
  * @param cam The camera whose view we're interested in.
  * @return A 4x4 matrix that moves world-space coordinates into camera-space
  */
-glm::mat4 get_view(const camera_t &cam);
+    glm::mat4 get_view(const camera_t &cam);
 
+}
 
 #endif // CHICKEN3421_CAMERA_HPP
