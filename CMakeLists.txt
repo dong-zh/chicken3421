@@ -5,6 +5,9 @@ project(chicken3421)
 set(CMAKE_CXX_STANDARD 17)
 
 option(CHICKEN3421_INSTALL "Generate install target" ON)
+set(GLFW_COMMIT_TAG master CACHE STRING "Which GLFW commit to use (for macOS compatibility")
+
+message(STATUS "Using GLFW commit: ${GLFW_COMMIT_TAG}")
 
 add_subdirectory(lib)
 
