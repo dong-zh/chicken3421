@@ -14,6 +14,7 @@ namespace chicken3421 {/**
 
         float yaw;
         float pitch;
+        float speed;
     };
 
 /**
@@ -23,7 +24,7 @@ namespace chicken3421 {/**
  * @param target What the camera is looking at
  * @return A new camera positioned at position, looking at target.
  */
-    camera_t make_camera(glm::vec3 pos, glm::vec3 target);
+    camera_t make_camera(glm::vec3 pos, glm::vec3 target, float speed = 10.f);
 
 /**
  * Destroys the camera "c".
@@ -33,6 +34,13 @@ namespace chicken3421 {/**
  * @param c The camera to destroy.
  */
     void delete_camera(camera_t &c);
+
+/**
+ * Update the camera speed.
+ *
+ * @param speed The speed of the camera
+ */
+    void update_camera_speed(camera_t &cam, float speed);
 
 /**
  * Update the position and/or target based on user input.

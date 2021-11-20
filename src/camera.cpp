@@ -5,7 +5,6 @@
 namespace {
     using namespace chicken3421;
 
-    const float CAMERA_SPEED = 10.f;
     const float INVERT_X = -1.f;
     const float INVERT_Y = 1.f;
 
@@ -44,14 +43,14 @@ namespace {
 
         prev_pos = ms_pos;
 
-        cam.yaw += INVERT_X * 1 / CAMERA_SPEED * delta.x;
-        cam.pitch += INVERT_Y * 1 / CAMERA_SPEED * delta.y;
+        cam.yaw += INVERT_X * 1 / cam.speed * delta.x;
+        cam.pitch += INVERT_Y * 1 / cam.speed * delta.y;
     }
 
     void update_cam_pos(camera_t &cam, GLFWwindow *win, float dt) {
         auto front = -frontv(cam.pitch, cam.yaw);
         auto right = sidev(cam.pitch, cam.yaw);
-        float step = dt * CAMERA_SPEED;
+        float step = dt * cam.speed;
 
         if (glfwGetKey(win, GLFW_KEY_W) == GLFW_PRESS) {
             cam.pos += front * step;
@@ -70,7 +69,7 @@ namespace {
 }
 
 namespace chicken3421 {
-    camera_t make_camera(glm::vec3 pos, glm::vec3 target) {
+    camera_t make_camera(glm::vec3 pos, glm::vec3 target, float speed) {
         glm::vec3 front = glm::normalize(target - pos);
 
         // calculate the yaw and pitch from the front vector
@@ -78,7 +77,7 @@ namespace chicken3421 {
         float yaw = -std::atan2(front.x, -front.z);
         float pitch = -std::asin(front.y);
 
-        return { pos, yaw, pitch };
+        return { pos, yaw, pitch, speed };
     }
 
     void delete_camera(camera_t &c) {
@@ -86,6 +85,9 @@ namespace chicken3421 {
         (void) c;
     }
 
+    void update_camera_speed(camera_t &cam, float speed) {
+        cam.speed = speed;
+    }
 
     void update_camera(camera_t &cam, GLFWwindow *window, float dt) {
         update_cam_angles(cam, window, dt);
