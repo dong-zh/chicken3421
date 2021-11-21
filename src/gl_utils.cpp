@@ -122,6 +122,11 @@ namespace chicken3421 {
         glUniform1i(location, value);
     }
 
+    void set_uniform(GLuint program, const std::string &name, glm::vec3 value) {
+        auto location = get_uniform_location(program, name);
+        glUniform3fv(location, 1, glm::value_ptr(value));
+    }
+
     void set_uniform(GLuint program, const std::string &name, glm::vec4 value) {
         auto location = get_uniform_location(program, name);
         glUniform4fv(location, 1, glm::value_ptr(value));

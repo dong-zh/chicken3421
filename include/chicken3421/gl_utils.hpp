@@ -152,6 +152,8 @@ namespace chicken3421 {
 
     void set_uniform(GLuint program, const std::string &name, glm::vec4 value);
 
+    void set_uniform(GLuint program, const std::string &name, glm::vec3 value);
+
     void set_uniform(GLuint program, const std::string &name, const glm::mat4 &value);
 
     /**
