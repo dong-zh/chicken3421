@@ -3,7 +3,7 @@ include(FetchContent)
 FetchContent_Declare(
         tinyobj
         GIT_REPOSITORY https://github.com/tinyobjloader/tinyobjloader
-        GIT_TAG master
+        GIT_TAG release
 )
 
 FetchContent_Declare(
