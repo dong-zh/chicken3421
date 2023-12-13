@@ -37,7 +37,7 @@ option(GLFW_BUILD_DOCS "" OFF)
 
 FetchContent_Declare(
         stb-cmake
-        GIT_REPOSITORY https://gitlab.cse.unsw.edu.au/COMP3421/stb-cmake-package
+        GIT_REPOSITORY https://nw-syd-gitlab.cseunsw.tech/COMP3421/stb-cmake-package
         GIT_TAG master
         GIT_PROGRESS ON
 )
