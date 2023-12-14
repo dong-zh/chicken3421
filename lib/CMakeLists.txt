@@ -35,12 +35,13 @@ option(GLFW_BUILD_TESTS "" OFF)
 option(GLFW_BUILD_DOCS "" OFF)
 
 
-FetchContent_Declare(
-        stb-cmake
-        GIT_REPOSITORY https://gitlab.cse.unsw.edu.au/COMP3421/stb-cmake-package
-        GIT_TAG master
-        GIT_PROGRESS ON
-)
+# FetchContent_Declare(
+#         stb-cmake
+#         GIT_REPOSITORY https://nw-syd-gitlab.cseunsw.tech/COMP3421/stb-cmake-package
+#         GIT_TAG master
+#         GIT_PROGRESS ON
+# )
+add_subdirectory(stb-cmake)
 
 # GLM is a piece of s***
 if (NOT glm_POPULATED)
@@ -54,4 +55,4 @@ if (NOT glm_POPULATED)
     add_subdirectory(${glm_SOURCE_DIR} ${glm_BINARY_DIR})
 endif()
 
-FetchContent_MakeAvailable(tinyobj glad glfw stb-cmake)
+FetchContent_MakeAvailable(tinyobj glad glfw)

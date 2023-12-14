@@ -2,6 +2,7 @@ build
 bin
 lib/*
 !lib/CMakeLists.txt
+!lib/stb-cmake
 .vscode
 .idea
 cmake-build-debug/
